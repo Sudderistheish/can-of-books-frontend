@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -7,11 +8,33 @@ class BestBooks extends React.Component {
       books: [],
     };
   }
+  componentDidMount () {
+    this.fetchBooks();
+  }
+  async fetchBooks (location = null) {
+    let apiURL = `${server}/books`;
 
-  /* TODO: Make a GET request to your API to fetch all the books from the database  */
+    if (location) { apiURL+= `?location${location}`
+
+  }
+    
+  try {
+        const response = await axios.get("YOUR_API_ENDPOINT");
+        this.setState({
+          books: response.data,/* TODO: Make a GET request to your API to fetch all the books from the database  */
+        }); 
+        console.log(error); 
+    }
+      
+
+}    
+
+    
+    // Process the data (list of books) here
+   
 
   render() {
-    /* TODO: render all the books in a Carousel */
+    const { books } = this.state;/* TODO: render all the books in a Carousel */
 
     return (
       <>
@@ -27,4 +50,4 @@ class BestBooks extends React.Component {
   }
 }
 
-export default BestBooks;
+export default BestBooks

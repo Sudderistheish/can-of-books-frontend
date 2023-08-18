@@ -1,12 +1,13 @@
-import React from "react";
 import Header from "./Header.jsx";
 import Footer from "./Footer";
 import BestBooks from "./BestBooks";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-class App extends React.Component {
-  App() {
+import React, { Component } from "react";
+
+export default class App extends Component {
+  render() {
     return (
       <>
         <Router>
@@ -21,5 +22,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;

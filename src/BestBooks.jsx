@@ -1,7 +1,11 @@
 import React from "react";
 import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-let server = import.meta.env.VITE_APP_URL || "http://127.0.0.1:3001";
+import Carousel from "react-bootstrap/Carousel";
+import { CarouselItem } from "react-bootstrap";
+import ExampleCarouselImage from "components/ExampleCarouselImage";
+let server = import.meta.env.VITE_BACKEND_URL || "http://127.0.0.1:3001";
+
 class BestBooks extends React.Component {
   constructor(props) {
     super(props);
@@ -41,27 +45,33 @@ class BestBooks extends React.Component {
 
   render() {
     //* TODO: render all the books in a Carousel */
+    const item = this.state.books.map((book) => {
+      return (
+        <Carousel.Item key={book._id}>
+          
+          {book.name}
+          {book.author}
+          {book.year}
+        </Carousel.Item>
+      );
+    });
 
     return (
-      
-          <>
+      <>
         <nav>
           <h1>Can of Books</h1>
         </nav>
-       
-          
-              <div>
-                <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+        <Carousel>{item}</Carousel>
+        <div>
+          <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
-                {this.state.books.length ? (
-                  <p>Book Carousel coming soon</p>
-                ) : (
-                  <h3>No Books Found :</h3>
-                )}
-              </div>
-         
-         </>
-        
+          {this.state.books.length ? (
+            <p>Book Carousel coming soon</p>
+          ) : (
+            <h3>No Books Found :</h3>
+          )}
+        </div>
+      </>
     );
   }
 }

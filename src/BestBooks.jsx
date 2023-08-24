@@ -52,22 +52,25 @@ class BestBooks extends React.Component {
         <nav>
           <h1>Can of Books</h1>
         </nav>
-        <Carousel>
-          {this.state.books?.map((book) => {
-            return (
-              <Carousel.Item key={book._id}>
-                <h3>{book.name}</h3>
-                <p>{book.author}</p>
-                <p>{book.year}</p>
-              </Carousel.Item>
-            );
-          })}
-        </Carousel>
+
         <div>
           <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
           {this.state.books.length ? (
-            <p>Book Carousel coming soon</p>
+            <Carousel>
+              {this.state.books?.map((book) => {
+                return (
+                  <Carousel.Item key={book._id}>
+                    <img src="https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" />
+                    <Carousel.Caption>
+                      <h3>{book.name}</h3>
+                      <p>{book.author}</p>
+                      <p>{book.year}</p>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
           ) : (
             <h3>No Books Found :</h3>
           )}

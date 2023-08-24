@@ -3,8 +3,8 @@ import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { CarouselItem } from "react-bootstrap";
-import ExampleCarouselImage from "components/ExampleCarouselImage";
-let server = import.meta.env.VITE_BACKEND_URL || "http://127.0.0.1:3001";
+
+let server = import.meta.env.VITE_APP_URL || "http://127.0.0.1:3001";
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -43,25 +43,26 @@ class BestBooks extends React.Component {
 
   // Process the data (list of books) here
 
-  render() {
-    //* TODO: render all the books in a Carousel */
-    const item = this.state.books.map((book) => {
-      return (
-        <Carousel.Item key={book._id}>
-          
-          {book.name}
-          {book.author}
-          {book.year}
-        </Carousel.Item>
-      );
-    });
+  //* TODO: render all the books in a Carousel */
 
+  render() {
+    console.log(this.state);
     return (
       <>
         <nav>
           <h1>Can of Books</h1>
         </nav>
-        <Carousel>{item}</Carousel>
+        <Carousel>
+          {this.state.books?.map((book) => {
+            return (
+              <Carousel.Item key={book._id}>
+                <h3>{book.name}</h3>
+                <p>{book.author}</p>
+                <p>{book.year}</p>
+              </Carousel.Item>
+            );
+          })}
+        </Carousel>
         <div>
           <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 

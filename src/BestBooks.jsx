@@ -58,22 +58,21 @@ class BestBooks extends React.Component {
   // Process the data (list of books) here
 
   handleSubmit = async (event) => {
-     let apiURL = `${server}/books`;
-    event.preventDefault()
-    try { 
-     const newBook = await axios.post(apiURL,{
-      name: this.state.formTitle, 
-      description: this.state.description,
-     } );
-     this.setState ({books:[...this.state.books, newBook.data]})
+    let apiURL = `${server}/books`;
+    event.preventDefault();
+    try {
+      const newBook = await axios.post(apiURL, {
+        name: this.state.formTitle,
+        description: this.state.description,
+      });
+      this.setState({ books: [...this.state.books, newBook.data] });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
   //* TODO: render all the books in a Carousel */
 
   render() {
-   
     //const {(books)} =this.state;
     return (
       <>
@@ -105,11 +104,24 @@ class BestBooks extends React.Component {
           <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
           {this.state.books.length ? (
-            <p>Book Carousel coming soon</p>
+            <Carousel>
+              {this.state.books?.map((book) => {
+                return (
+                  <Carousel.Item key={book._id}>
+                    <img src="https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" />
+                    <Carousel.Caption>
+                      <h3>{book.name}</h3>
+                      <p>{book.author}</p>
+                      <p>{book.year}</p>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
           ) : (
             <h3>No Books Found :</h3>
           )}
-          <Form onSubmit={this.handleSubmit} >
+          <Form onSubmit={this.handleSubmit}>
             <Form.Group
               onChange={(event) => {
                 this.setState({ formTitle: event.target.value });

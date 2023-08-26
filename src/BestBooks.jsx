@@ -18,6 +18,9 @@ class BestBooks extends React.Component {
       updateTitle: "",
       updateDescription: "",
       selectedBook: "",
+      updateYear: 9999,
+      updateAuthor: "",
+      updateStatus: true,
     };
   }
   componentDidMount() {
@@ -29,8 +32,8 @@ class BestBooks extends React.Component {
       show: false,
       selectedBook: "",
     });
-  
-    handleOpen = (id) => this.setState({ show: true,selectedBook:id });
+
+  handleOpen = (id) => this.setState({ show: true, selectedBook: id });
 
   handleDelete = async (id) => {
     try {
@@ -92,14 +95,25 @@ class BestBooks extends React.Component {
       const newBook = await axios.put(apiURL, {
         name: this.state.updateTitle,
         description: this.state.updateDescription,
+        author: this.state.updateAuthor,
+        status: this.state.updateStatus,
+        year: this.state.updateYear,
       });
-      this.setState({ books: [...this.state.books, newBook.data] });
+
+      this.setState({
+        books: [...this.state.books, newBook.data],
+        updateTitle: "",
+        updateDescription: "",
+        updateAuthor: "",
+        updateStatus: true,
+        updateYear: 9999,
+      });
     } catch (error) {
       console.error(error);
     }
   };
   render() {
-    //const {(books)} =this.state;
+    console.log(this.state.updateStatus); //const {(books)} =this.state;
     return (
       <>
         <nav>
@@ -157,6 +171,38 @@ class BestBooks extends React.Component {
             >
               <Form.Label>Description</Form.Label>
               <Form.Control type="text" placeholder="Description" />
+            </Form.Group>
+            <Form.Group
+              onChange={(event) => {
+                this.setState({ updateYear: +event.target.value });
+              }}
+              className="mb-3"
+              controlId="Year"
+            >
+              <Form.Label>Year</Form.Label>
+              <Form.Control type="number" placeholder="1985" />
+            </Form.Group>
+            <Form.Group
+              onChange={(event) => {
+                this.setState({ updateAuthor: event.target.value });
+              }}
+              className="mb-3"
+              controlId="Author"
+            >
+              <Form.Label>Author</Form.Label>
+              <Form.Control type="name" placeholder="Robert M." />
+            </Form.Group>
+            <Form.Group
+              onChange={(event) => {
+                this.setState({
+                  updateStatus: !this.state.updateStatus,
+                });
+              }}
+              className="mb-3"
+              controlId="formBasicCheckbox"
+              Check={this.state.updateStatus}
+            >
+              <Form.Check type="checkbox" label="In Stock" />
             </Form.Group>
 
             <Button variant="primary" type="submit">

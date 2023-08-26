@@ -5,8 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import React, { Component } from "react";
+//const Server = import.meta.env.VITE_SERVER_URL;
 
-export default class App extends Component {
+class App extends Component {
+  
+   
   render() {
     return (
       <>
@@ -23,10 +26,4 @@ export default class App extends Component {
   }
 }
 
-// export default class App extends Component {
-//   renderBooks() {
-//     return (
-//       <div>App</div>
-//     )
-//   }
-// }
+export default App

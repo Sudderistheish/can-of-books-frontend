@@ -38,5 +38,17 @@
 }
 
 .read-the-docs {
-  color: #888;
+    color: #888;
+}
+
+.bookRapper {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.bookRapper div {
+ z-index: 2;
+ height: 200px;
+ width: 20px;
 }

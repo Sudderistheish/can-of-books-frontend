@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
-import { Button, CarouselItem, Form, Image } from "react-bootstrap";
+import { Button, Modal, CarouselItem, Form, Image } from "react-bootstrap";
 import { Icon } from "@iconify/react";
 
 let server = import.meta.env.VITE_APP_URL || "http://127.0.0.1:3001";
@@ -14,11 +14,24 @@ class BestBooks extends React.Component {
       books: [],
       formTitle: "",
       description: "",
+      show: false,
+      updateTitle: "",
+      updateDescription: "",
+      selectedBook: "",
     };
   }
   componentDidMount() {
     this.fetchBooks();
   }
+
+  handleClose = () =>
+    this.setState({
+      show: false,
+      selectedBook: "",
+    });
+  
+    handleOpen = (id) => this.setState({ show: true,selectedBook:id });
+
   handleDelete = async (id) => {
     try {
       await axios.delete(`${server}/books/${id}`);
@@ -72,6 +85,19 @@ class BestBooks extends React.Component {
   };
   //* TODO: render all the books in a Carousel */
 
+  handleUpdate = async (event) => {
+    let apiURL = `${server}/books/${this.state.selectedBook}`;
+    event.preventDefault();
+    try {
+      const newBook = await axios.put(apiURL, {
+        name: this.state.updateTitle,
+        description: this.state.updateDescription,
+      });
+      this.setState({ books: [...this.state.books, newBook.data] });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   render() {
     //const {(books)} =this.state;
     return (
@@ -92,8 +118,13 @@ class BestBooks extends React.Component {
                   <h3>{book.name}</h3>
                   <p>{book.author}</p>
                   <p>{book.year}</p>
-                  <div onClick={() => this.handleDelete(book._id)}>
-                    <Icon icon="icon-park:delete" />
+                  <div className="wrapper">
+                    <div onClick={() => this.handleDelete(book._id)}>
+                      <Icon icon="icon-park:delete" />
+                    </div>
+                    <div onClick={() => this.handleOpen(book._id)}>
+                      <Icon icon="icon-park:edit" />
+                    </div>
                   </div>
                 </div>
               </Carousel.Item>
@@ -101,26 +132,8 @@ class BestBooks extends React.Component {
           })}
         </Carousel>
         <div>
-          <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+          <h2> Add Book to Carousel</h2>
 
-          {this.state.books.length ? (
-            <Carousel>
-              {this.state.books?.map((book) => {
-                return (
-                  <Carousel.Item key={book._id}>
-                    <img src="https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" />
-                    <Carousel.Caption>
-                      <h3>{book.name}</h3>
-                      <p>{book.author}</p>
-                      <p>{book.year}</p>
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                );
-              })}
-            </Carousel>
-          ) : (
-            <h3>No Books Found :</h3>
-          )}
           <Form onSubmit={this.handleSubmit}>
             <Form.Group
               onChange={(event) => {
@@ -151,9 +164,58 @@ class BestBooks extends React.Component {
             </Button>
           </Form>
         </div>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={this.handleUpdate}>
+              <Form.Group
+                onChange={(event) => {
+                  this.setState({ updateDescription: event.target.value });
+                }}
+                className="mb-3"
+                controlId="title"
+              >
+                <Form.Label>Title</Form.Label>
+                <Form.Control type="text" placeholder="Title" />
+                <Form.Text className="text-muted">
+                  Empowering Books For The Mind
+                </Form.Text>
+              </Form.Group>
+              <Form.Group
+                onChange={(event) => {
+                  this.setState({ updateTitle: event.target.value });
+                }}
+                className="mb-3"
+                controlId="description"
+              >
+                <Form.Label>Description</Form.Label>
+                <Form.Control type="text" placeholder="Description" />
+              </Form.Group>
+
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={this.handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </>
     );
   }
 }
 
 export default BestBooks;
+//  UpdateItems = async (id) => {
+// await axios.update("${server}/items/${id}");
+//const remaingItems = this.state.items.filter((item) => item._id !== id);
+//this.setState({
+//items: remaingItems,

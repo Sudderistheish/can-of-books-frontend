@@ -27,3 +27,9 @@ class App extends Component {
 }
 
 export default App
+
+//  UpdateItems = async (id) => {
+   // await axios.update("${server}/items/${id}");
+    //const remaingItems = this.state.items.filter((item) => item._id !== id);
+    //this.setState({
+      //items: remaingItems,

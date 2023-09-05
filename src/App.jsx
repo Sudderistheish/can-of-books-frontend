@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import React, { Component } from "react";
+import AuthO from 'authO-react';
 //const Server = import.meta.env.VITE_SERVER_URL;
 
 class App extends Component {

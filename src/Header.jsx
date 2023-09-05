@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {useAuthO} from '@authO/authoO-react';
 
 class Header extends React.Component {
   render() {

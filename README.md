@@ -9,3 +9,4 @@ Met with Tutor added the browswer. Unable to connect to backend waiting on code 
 Added Update Function
 Added the ability to update a title and description of a book
 Removed extra Carousel
+  adding AuthO

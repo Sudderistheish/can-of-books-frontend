@@ -5,8 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import React, { Component } from "react";
-import AuthO from 'authO-react';
+import { Auth0Provider } from '@auth0/auth0-react';
+import Profile from './profile.jsx';
+
+
 //const Server = import.meta.env.VITE_SERVER_URL;
+const domain = import.meta.env.VITE_APP_AUTH0_DOMAIN;
+const clientId= import.meta.env.VITE_APP_AUTH0_CLIENT_ID;
+const redirectUri= window.location.origin;
 
 class App extends Component {
   
@@ -14,6 +20,10 @@ class App extends Component {
   render() {
     return (
       <>
+      <Auth0Provider domain={domain} clientId={clientId} authorizationParams={{
+        redirect_uri: redirectUri
+      }}>
+<Profile/>
         <Router>
           <Header />
           <Routes>
@@ -22,6 +32,7 @@ class App extends Component {
           </Routes>
           <Footer />
         </Router>
+      </Auth0Provider>
       </>
     );
   }

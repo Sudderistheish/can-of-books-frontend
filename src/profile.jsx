@@ -1,29 +1,26 @@
-import React from 'react';
-import {UseAuthO} from '@authO/authO-react';
-import { render } from 'react-dom';
+import { withAuth0 } from "@auth0/auth0-react";
+import React from "react";
+import { render } from "react-dom";
 
 class Profile extends React.Component {
-    render() {
-        const  {user} = UseAuthO(); {   
-
-
-
-         }
-   
-return (
-    <div>
-        <h2>Profile</h2>
-        <img src={user.picture} alt={user.name} />
-        <p>Name: {user.name}</p>
-        <p>Email: {user.email}</p>
-    </div>
-
-);
-
+  render() {
+    const { isAuthenticated, loginWithRedirect, logout } = this.props.auth0;
+    if (!isAuthenticated) {
+      return <button onClick={loginWithRedirect}>Login</button>;
+    } else {
+      return (
+        <button
+          onClick={() => {
+            logout({
+              returnTo: window.location.origin,
+            });
+          }}
+        >
+          Log Out
+        </button>
+      );
+    }
+  }
 }
 
-}
-
-
-
-render (<Profile />, document.getElementById ('root'));
+export default withAuth0(Profile);
